@@ -5,10 +5,10 @@ const transactionRouter = require("./controllers/transactionController");
 
 app.use(cors());
 app.use(express.json());
-app.use("/transaction", transactionRouter);
+app.use("/transactions", transactionRouter);
 
 app.get("/", (req, res) => {
-  res.send("Hello world!");
+  res.send("Welcome to the transaction API!");
 });
 
 module.exports = app;
