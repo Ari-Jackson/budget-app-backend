@@ -12,4 +12,17 @@ transactionRouter
     res.status(201).json(transactionModel[transactionModel.length - 1]);
   });
 
+transactionRouter.route("/:id").get((req, res) => {
+  const { id } = req.params;
+  const matchingTransaction = transactionModel.find((trans) => {
+    return trans.id === Number(id);
+  });
+
+  if (!matchingTransaction) {
+    res.status(404).send("No transaction found");
+  } else {
+    res.status(200).json(matchingTransaction);
+  }
+});
+
 module.exports = transactionRouter;
