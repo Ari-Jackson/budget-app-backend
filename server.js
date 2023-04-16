@@ -1,15 +1,9 @@
-const express = require("express");
-const app = express();
+const app = require("./app");
 
-app.use(express.json());
-app.use(require("cors"));
+// CONFIGURATION
+require("dotenv").config();
+const PORT = process.env.PORT;
 
-app.get("/", (req, res) => {
-  res.send("Hello world!");
-});
-
-app.listen(process.env.PORT || 3000, () => {
-  console.log(
-    `I'll be right by your side, on port ${process.env.PORT || 3000}`
-  );
+app.listen(PORT || 3000, () => {
+  console.log(`I'll be right by your side, on port ${PORT || 3000}`);
 });
