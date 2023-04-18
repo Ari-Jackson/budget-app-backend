@@ -5,9 +5,12 @@ const transactionModel = require("../models/transactionModels");
 transactionRouter
   .route("/")
   .get((req, res) => {
-    res.send(transactionModel);
+    res.status(200).json(transactionModel);
   })
   .post((req, res) => {
+    nextId = transactionModel.length + 1;
+    req.body.id = nextId;
+    console.log(req.body.id);
     transactionModel.push(req.body);
     res.status(201).json(transactionModel[transactionModel.length - 1]);
   });
@@ -23,7 +26,7 @@ transactionRouter
     const matchingTransaction = transactionModel.find(findsTransaction(id));
 
     if (!matchingTransaction) {
-      res.status(404).send("No transaction found");
+      res.status(404).send("No matching transaction found");
     } else {
       res.status(200).json(matchingTransaction);
     }
