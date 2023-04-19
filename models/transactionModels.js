@@ -2,7 +2,7 @@ module.exports = [
   {
     id: 1,
     name: "Direct Depost",
-    amount: 5000,
+    amount: 15,
     date: "Jan 1, 2023",
     from: "Employer",
     category: "Income",
@@ -10,7 +10,7 @@ module.exports = [
   {
     id: 2,
     name: "Direct Depost",
-    amount: 5000,
+    amount: 5.5,
     date: "Jan 8, 2023",
     from: "Employer",
     category: "Income",
@@ -26,7 +26,7 @@ module.exports = [
   {
     id: 4,
     name: "Direct Depost",
-    amount: 5000,
+    amount: 5,
     date: "Jan 15, 2023",
     from: "Employer",
     category: "Income",
