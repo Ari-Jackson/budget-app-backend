@@ -6,6 +6,7 @@ module.exports = [
     date: 1548381600000,
     from: "Employer",
     category: "Income",
+    deposit: true,
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ module.exports = [
     date: 1548381600000,
     from: "Employer",
     category: "Income",
+    deposit: true,
   },
   {
     id: 3,
@@ -22,6 +24,7 @@ module.exports = [
     date: 1548381600000,
     from: "Trixies Pet Shop",
     category: "Pets",
+    deposit: false,
   },
   {
     id: 4,
@@ -30,6 +33,7 @@ module.exports = [
     date: 1548381600000,
     from: "Employer",
     category: "Income",
+    deposit: true,
   },
   {
     id: 5,
@@ -38,6 +42,7 @@ module.exports = [
     date: 1548381600000,
     from: "Hardee Chinese Food Shop",
     category: "Food",
+    deposit: false,
   },
   {
     id: 6,
@@ -46,5 +51,6 @@ module.exports = [
     date: 1548381600000,
     from: "Hardee Chinese Food Shop",
     category: "Food",
+    deposit: false,
   },
 ];
