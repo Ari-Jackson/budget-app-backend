@@ -8,10 +8,9 @@ transactionRouter
     res.status(200).json(transactionModel);
   })
   .post((req, res) => {
-    nextId = transactionModel.length + 1;
-    req.body.id = nextId;
-    console.log(req.body.id);
-    transactionModel.push(req.body);
+    nextId = transactionModel[transactionModel.length - 1].id + 1;
+    console.log({ id: nextId, ...req.body });
+    transactionModel.push({ id: nextId, ...req.body });
     res.status(201).json(transactionModel[transactionModel.length - 1]);
   });
 
