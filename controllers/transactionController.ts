@@ -1,6 +1,8 @@
-const express = require("express");
-const transactionRouter = express.Router();
-const transactionModel = require("../models/transactionModels");
+import express, { Router } from "express";
+import transactionModel from "../models/transactionModels";
+import type { transactionModelType } from "../models/transactionModels";
+
+const transactionRouter: Router = express.Router();
 
 transactionRouter
   .route("/")
@@ -8,13 +10,13 @@ transactionRouter
     res.status(200).json(transactionModel);
   })
   .post((req, res) => {
-    nextId = transactionModel[transactionModel.length - 1].id + 1;
+    const nextId = transactionModel[transactionModel.length - 1].id + 1;
     console.log({ id: nextId, ...req.body });
     transactionModel.push({ id: nextId, ...req.body });
     res.status(201).json(transactionModel[transactionModel.length - 1]);
   });
 
-const findsTransaction = (id) => (trans) => {
+const findsTransaction = (id: string) => (trans: transactionModelType) => {
   return trans.id === Number(id);
 };
 
@@ -55,4 +57,4 @@ transactionRouter
     }
   });
 
-module.exports = transactionRouter;
+export default transactionRouter;

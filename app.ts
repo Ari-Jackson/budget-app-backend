@@ -1,8 +1,8 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const transactionRouter = require("./controllers/transactionController");
+import express, { type Express } from "express";
+import cors from "cors";
+import transactionRouter from "./controllers/transactionController";
 
+const app: Express = express();
 app.use(cors());
 app.use(express.json());
 app.use("/transactions", transactionRouter);
@@ -15,4 +15,4 @@ app.get("*", (req, res) => {
   res.status(404).json("Could not find resource, please try again");
 });
 
-module.exports = app;
+export default app;
