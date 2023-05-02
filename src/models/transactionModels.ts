@@ -1,4 +1,4 @@
-module.exports = [
+const transactionModel = [
   {
     id: 1,
     name: "Direct Depost",
@@ -54,3 +54,7 @@ module.exports = [
     deposit: false,
   },
 ];
+
+export default transactionModel;
+
+export type transactionModelType = (typeof transactionModel)[0];
