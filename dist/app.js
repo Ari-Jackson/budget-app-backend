@@ -11,7 +11,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/transactions", transactionController_1.default);
 app.get("/", (req, res) => {
-    res.send("Welcome to the transaction API!");
+    res.json("Welcome to the transaction API! Resources can be found at the /transactions endpoint");
 });
 app.get("*", (req, res) => {
     res.status(404).json("Could not find resource, please try again");
