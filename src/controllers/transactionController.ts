@@ -1,59 +1,62 @@
-import express, { Router } from "express";
-import transactionModel from "../models/transactionModels";
-import type { transactionModelType } from "../models/transactionModels";
+import express from "express";
+import {
+  getAllTransactions,
+  getOneTransaction,
+  createOneTransaction,
+  deleteOneTransaction,
+  updateOneTransaction,
+} from "../queries/transactionQueries";
 
-const transactionRouter: Router = express.Router();
+const transactionRouter = express.Router();
 
 transactionRouter
   .route("/")
-  .get((req, res) => {
-    res.status(200).json(transactionModel);
+  .get(async (req, res) => {
+    const { error, result } = await getAllTransactions();
+    if (error) {
+      res.status(500).json({ error: "server error" });
+    } else {
+      res.status(200).json(result);
+    }
   })
-  .post((req, res) => {
-    const nextId = transactionModel[transactionModel.length - 1].id + 1;
-    console.log({ id: nextId, ...req.body });
-    transactionModel.push({ id: nextId, ...req.body });
-    res.status(201).json(transactionModel[transactionModel.length - 1]);
+  .post(async (req, res) => {
+    const { error, result } = await createOneTransaction(req.body);
+    if (error) {
+      res.status(500).json({ error: "server error" });
+    } else {
+      res.status(201).json(result);
+    }
   });
-
-const findsTransaction = (id: string) => (trans: transactionModelType) => {
-  return trans.id === Number(id);
-};
 
 transactionRouter
   .route("/:id")
-  .get((req, res) => {
+  .get(async (req, res) => {
     const { id } = req.params;
-    const matchingTransaction = transactionModel.find(findsTransaction(id));
-
-    if (!matchingTransaction) {
-      res.status(404).send("No matching transaction found");
+    const { error, result } = await getOneTransaction(id);
+    if (error?.code === 0) {
+      res.status(404).json({ error: "bookmark not found" });
+    } else if (error) {
+      res.status(500).json({ error: "server error" });
     } else {
-      res.status(200).json(matchingTransaction);
+      res.status(200).json(result);
     }
   })
-  .put((req, res) => {
+  .put(async (req, res) => {
     const { id } = req.params;
-    const matchingTransaction = transactionModel.find(findsTransaction(id));
-    const matchingIndex = transactionModel.findIndex(findsTransaction(id));
-
-    if (!matchingTransaction) {
-      res.status(404).send("No matching transaction found");
+    const { error, result } = await updateOneTransaction(id, req.body);
+    if (error) {
+      res.status(500).json({ error: "server error" });
     } else {
-      transactionModel[matchingIndex] = req.body;
-      res.status(200).json(transactionModel[matchingIndex]);
+      res.status(200).json(result);
     }
   })
-  .delete((req, res) => {
+  .delete(async (req, res) => {
     const { id } = req.params;
-    const matchingTransaction = transactionModel.find(findsTransaction(id));
-    const matchingIndex = transactionModel.findIndex(findsTransaction(id));
-
-    if (!matchingTransaction) {
-      res.status(404).send("No matching transaction found");
+    const { error, result } = await deleteOneTransaction(id);
+    if (error) {
+      res.status(404).json("Bookmark not found");
     } else {
-      transactionModel.splice(matchingIndex, 1);
-      res.status(200).json(transactionModel);
+      res.status(201).json(result);
     }
   });
 
