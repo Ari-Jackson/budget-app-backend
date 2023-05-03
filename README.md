@@ -4,4 +4,4 @@ This is a fully typesafe api. It uses typescript and zod for input validation co
 
 
 
-The demo is deployed [here](https://budget-app-o1zu.onrender.com). (😅 Since the project was migrated to postgress, the database will need to be hosted as well. This is under development.)
+The demo is deployed [here](https://budget-app-o1zu.onrender.com). (😅 Since the data was migrated from json to postgress, the demo database will need to be hosted. This is under development.)
