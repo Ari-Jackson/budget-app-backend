@@ -1,7 +1,6 @@
 import express, { type Express } from "express";
 import cors from "cors";
 import transactionRouter from "./controllers/transactionController";
-import path from "path";
 
 const app: Express = express();
 app.use(cors());
