@@ -6,6 +6,7 @@ import {
   deleteOneTransaction,
   updateOneTransaction,
 } from "../queries/transactionQueries";
+import transactionsValidator from "../../src/validators/transactionValidator";
 
 const transactionRouter = express.Router();
 
@@ -19,7 +20,7 @@ transactionRouter
       res.status(200).json(result);
     }
   })
-  .post(async (req, res) => {
+  .post(transactionsValidator, async (req, res) => {
     const { error, result } = await createOneTransaction(req.body);
     if (error) {
       res.status(500).json({ error: "server error" });
@@ -41,7 +42,7 @@ transactionRouter
       res.status(200).json(result);
     }
   })
-  .put(async (req, res) => {
+  .put(transactionsValidator, async (req, res) => {
     const { id } = req.params;
     const { error, result } = await updateOneTransaction(id, req.body);
     if (error) {
