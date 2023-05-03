@@ -1,5 +1,6 @@
 import { ParsedQs } from "qs";
 import db from "../../db/dbConfig.js";
+import { transactionSchemaType } from "../../src/validators/transactionValidator.js";
 
 type queryFunctionType = (id: string) => Promise<any>;
 type queryFunctionType2 = (
@@ -36,26 +37,30 @@ const getAllTransactions: queryFunctionType2 = async (order, is_favorite) => {
 
 const getOneTransaction: queryFunctionType = async (id: string) => {
   try {
-    const { result } = await db.oneOrNone(
-      "SELECT * FROM transactions WHERE id=$1;",
-      id
-    );
+    const result = await db.one("SELECT * FROM transactions WHERE id=$1;", id);
     return { result };
   } catch (error) {
     return { error };
   }
 };
 
-const createOneTransaction = async (newTransactionInfo: any) => {
+const createOneTransaction = async (
+  newTransactionInfo: transactionSchemaType
+) => {
+  if (!newTransactionInfo.transaction_from)
+    newTransactionInfo.transaction_from = null;
+  if (!newTransactionInfo.category) newTransactionInfo.category = null;
+  if (!newTransactionInfo.deposit) newTransactionInfo.deposit = false;
   try {
-    const result = await db.one(
-      "INSERT INTO transactions (name, artist, album, time, is_favorite) VALUES($1, $2, $3, $4, $5) RETURNING *",
+    const result = await db.any(
+      "INSERT INTO transactions(title, amount, transaction_date, deposit) VALUES($1, $2, $3, $4) RETURNING *;",
       [
-        newTransactionInfo.name,
-        newTransactionInfo.artist,
-        newTransactionInfo.album,
-        newTransactionInfo.time,
-        newTransactionInfo.is_favorite,
+        newTransactionInfo.title,
+        newTransactionInfo.amount,
+        newTransactionInfo.transaction_date,
+        newTransactionInfo.transaction_from,
+        newTransactionInfo.category,
+        newTransactionInfo.deposit,
       ]
     );
     return { result };
@@ -79,13 +84,14 @@ const deleteOneTransaction: queryFunctionType = async (id: string) => {
 const updateOneTransaction = async (id: string, newTransactionInfo: any) => {
   try {
     const result = await db.one(
-      "UPDATE transactions SET name=$1, artist=$2, album=$3, time=$4, is_favorite=$5 WHERE id=$6 RETURNING *;",
+      "UPDATE transactions SET title=$1, amount=$2, transaction_date=$3, transaction_from=$4, category=$5, deposit=$6  WHERE id=$7 RETURNING *;",
       [
-        newTransactionInfo.name,
-        newTransactionInfo.artist,
-        newTransactionInfo.album,
-        newTransactionInfo.time,
-        newTransactionInfo.is_favorite,
+        newTransactionInfo.title,
+        newTransactionInfo.amount,
+        newTransactionInfo.transaction_date,
+        newTransactionInfo.transaction_from,
+        newTransactionInfo.category,
+        newTransactionInfo.deposit,
         id,
       ]
     );

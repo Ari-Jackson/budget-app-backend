@@ -22,8 +22,8 @@ transactionRouter
   })
   .post(transactionsValidator, async (req, res) => {
     const { error, result } = await createOneTransaction(req.body);
-    if (error) {
-      res.status(500).json({ error: "server error" });
+    if (!!error) {
+      res.status(500).json({ Error: result });
     } else {
       res.status(201).json(result);
     }
@@ -37,7 +37,7 @@ transactionRouter
     if (error?.code === 0) {
       res.status(404).json({ error: "bookmark not found" });
     } else if (error) {
-      res.status(500).json({ error: "server error" });
+      res.status(500).json({ Error: "server error" });
     } else {
       res.status(200).json(result);
     }
